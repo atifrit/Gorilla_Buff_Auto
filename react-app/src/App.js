@@ -5,6 +5,7 @@ import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import BookingsPage from './components/BookingsPage';
 import BookingsDetailPage from "./components/BookingDetailPage";
+import LandingPage from "./components/LandingPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <Route path='/bookings'>
             {user ? <BookingsPage /> : <Redirect to='/login'></Redirect>}
+          </Route>
+          <Route path='/'>
+            <LandingPage />
           </Route>
         </Switch>
       )}
