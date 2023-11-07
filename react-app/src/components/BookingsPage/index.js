@@ -10,15 +10,11 @@ const BookingsPage = () => {
     const user = useSelector((state) => state.session.user)
     const bookings = useSelector((state) => state.bookings)
 
-    console.log('bookings.user_id: ', bookings.user_id);
-
     useEffect(() => {
         if (!bookings.user_id) {
             dispatch(getUserBookings());
         }
     }, [dispatch, bookings])
-
-    console.log('bookings: ', bookings)
 
     return (
         <>
