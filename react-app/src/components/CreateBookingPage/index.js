@@ -59,6 +59,12 @@ function CreateBookingForm() {
     }
 
 
+    let pastBool = false;
+
+    if (new Date().getTime() > new Date(appointmentDate).getTime()) {
+        pastBool = true;
+    }
+
 
     let sedan = 1;
     let sport = 2;
@@ -126,7 +132,8 @@ function CreateBookingForm() {
                     }}
                     required
                     />
-                    <p className="errors">{occupiedBool ? 'Appointment Date Taken' : null}</p>
+                    <p className="errors">{occupiedBool && !pastBool ? 'Appointment Date Taken' : null}</p>
+                    <p className="errors">{pastBool ? 'Cannot make Appointments in the Past' : null}</p>
                     <label htmlFor="car">Select Car Type:</label>
                     <select name='car' value={carType} onChange={(e) => {
                         setCarType(e.target.value);
@@ -143,7 +150,7 @@ function CreateBookingForm() {
                         <option value='full'>Premium Exterior and Interior Detail</option>
                     </select>
 
-                    <button id="booking-submit-button" type="submit" disabled={occupiedBool}>Create Appointment</button>
+                    <button id="booking-submit-button" type="submit" disabled={occupiedBool || pastBool}>Create Appointment</button>
                 </form>
             </>
         )

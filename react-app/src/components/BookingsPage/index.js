@@ -1,12 +1,19 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserBookings } from "../../store/bookings";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, Redirect, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import './user_booking_page.css';
 
 
+
+const handleClick = () => {
+
+    return (<Redirect to='/bookings/new' />)
+}
+
 const BookingsPage = () => {
     const dispatch = useDispatch();
+    const history = useHistory()
     const user = useSelector((state) => state.session.user)
     const bookings = useSelector((state) => state.bookings)
 
@@ -46,6 +53,8 @@ const BookingsPage = () => {
                     })}
                 </div>
             </div>
+
+            <button className='manageButtons' onClick={(e) => { history.push(`/bookings/new`) }}>Make an Appointment</button>
         </>
     )
 
