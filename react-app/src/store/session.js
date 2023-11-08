@@ -1,3 +1,5 @@
+import { bindActionCreators } from "redux";
+
 // constants
 const SET_USER = "session/SET_USER";
 const REMOVE_USER = "session/REMOVE_USER";
@@ -94,12 +96,67 @@ export const signUp = (username, email, password) => async (dispatch) => {
 	}
 };
 
+const ADD_BALANCE = "/ADD_BALANCE";
+
+const addBalance = (newBalance) => ({
+	type: ADD_BALANCE,
+	payload: newBalance,
+  });
+
+export const addBalanceToUser = (amount) => async (dispatch) => {
+	try {
+	  const response = await fetch("/api/users/add_balance", {
+		method: "POST",
+		headers: {
+		  "Content-Type": "application/json",
+		},
+		body: JSON.stringify({ amount }),
+	  });
+	  if (!response.ok) throw response;
+	  const data = await response.json();
+	  dispatch(addBalance(data.new_balance));
+	} catch (error) {
+	  console.error("Error adding balance to portfolio:", error);
+	}
+  };
+const REMOVE_BALANCE = "/REMOVE_BALANCE";
+
+const removeBalance = (newBalance) => ({
+	type: REMOVE_BALANCE,
+	payload: newBalance,
+  });
+
+export const removeBalanceFromUser = (amount) => async (dispatch) => {
+	try {
+	  const response = await fetch("/api/users/remove_balance", {
+		method: "POST",
+		headers: {
+		  "Content-Type": "application/json",
+		},
+		body: JSON.stringify({ amount }),
+	  });
+	  if (!response.ok) throw response;
+	  const data = await response.json();
+	  dispatch(removeBalance(data.new_balance));
+	} catch (error) {
+	  console.error("Error withdrawing funds:", error);
+	}
+  };
+
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case SET_USER:
 			return { user: action.payload };
 		case REMOVE_USER:
 			return { user: null };
+		case ADD_BALANCE:
+			return {
+				user: {...state.session.user, balance: action.payload.new_balance}
+			}
+		case REMOVE_BALANCE:
+			return {
+				user: {...state.session.user, balance: action.payload.new_balance}
+			}
 		default:
 			return state;
 	}
