@@ -143,7 +143,7 @@ function CreateBookingForm() {
                         <option value='full'>Premium Exterior and Interior Detail</option>
                     </select>
 
-                    <button id="booking-submit-button" type="submit" disabled={errors.length>0}>Create Appointment</button>
+                    <button id="booking-submit-button" type="submit" disabled={occupiedBool}>Create Appointment</button>
                 </form>
             </>
         )

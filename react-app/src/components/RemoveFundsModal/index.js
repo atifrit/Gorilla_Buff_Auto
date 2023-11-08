@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { removeBalanceFromUser} from "../../store/session";
 
 const RemoveFundsModal = () => {
   const dispatch = useDispatch();
   const { setModalContent } = useModal();
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(1);
   const [error, setError] = useState(null);
+
+  const user = useSelector((state) => state.session.user)
 
   const handleRemoveFunds = async () => {
     if (amount <= 0) {
@@ -31,6 +33,9 @@ const RemoveFundsModal = () => {
     setModalContent(null);
   };
 
+
+
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -45,11 +50,13 @@ const RemoveFundsModal = () => {
             setError(null);
           }}
         />
+        <p className="errors">{ user.balance < amount ? 'Insufficient Funds' : null}</p>
+        <p className="errors">{ amount < 1 ? 'Invalid Amount' : null}</p>
         {error && <p className="error">{error}</p>}
         <button
           onClick={handleRemoveFunds}
           className="remove-funds"
-          disabled={amount <= 0}
+          disabled={amount <= 0 || user.balance < amount}
         >
           Withdraw Funds
         </button>

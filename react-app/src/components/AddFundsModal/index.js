@@ -7,7 +7,7 @@ import { addBalanceToUser } from "../../store/session";
 const AddFundsModal = () => {
   const dispatch = useDispatch();
   const { setModalContent } = useModal();
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(1);
   const [error, setError] = useState(null);
 
   const handleAddFunds = async () => {
@@ -42,6 +42,7 @@ const AddFundsModal = () => {
             setError(null);
           }}
         />
+        <p className="errors">{ amount < 1 ? 'Invalid Amount' : null}</p>
         {error && <p className="error">{error}</p>}
         <button
           onClick={handleAddFunds}
