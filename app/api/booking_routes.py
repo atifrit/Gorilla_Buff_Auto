@@ -34,3 +34,13 @@ def get_current_user_bookings():
         'user_id': current_user.id,
         'booking_details': booking_details
         })
+
+
+@bookings_routes.route('/dates')
+@login_required
+def get_all_dates():
+    bookings = Booking.query.all()
+
+    booking_dates = [booking.appointment_date for booking in bookings]
+
+    return jsonify(booking_dates)

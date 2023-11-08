@@ -7,6 +7,7 @@ import BookingsPage from './components/BookingsPage';
 import BookingsDetailPage from "./components/BookingDetailPage";
 import LandingPage from "./components/LandingPage";
 import UserDetails from "./components/UserDetails";
+import CreateBookingForm from "./components/CreateBookingPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
@@ -36,6 +37,9 @@ function App() {
           </Route>
           <Route path='/bookings/:bookingId(\d+)'>
             {user ? <BookingsDetailPage /> : <Redirect to='/login'></Redirect>}
+          </Route>
+          <Route path='/bookings/new'>
+            {user ? <CreateBookingForm /> : <Redirect to='/login'></Redirect>}
           </Route>
           <Route path='/bookings'>
             {user ? <BookingsPage /> : <Redirect to='/login'></Redirect>}
