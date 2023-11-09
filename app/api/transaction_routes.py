@@ -45,7 +45,7 @@ def createTransaction():
         db.session.commit()
         if(transactionForm.data['payment_method'] == 'balance'):
             user=User.query.filter_by(id=current_user.id).first()
-            user.balance+=transactionForm.data['balance_change']
+            user.balance-=transactionForm.data['balance_change']
             db.session.commit()
             return jsonify({"message": "balance deduction successful"}), 201
         return ({"message": "transaction successful"}), 202
