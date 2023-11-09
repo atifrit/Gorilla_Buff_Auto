@@ -58,7 +58,7 @@ def get_all_dates():
 @bookings_routes.route('/', methods=['POST'])
 @login_required
 def createBooking():
-    bookingForm = BookingForm.BookingForm()
+    bookingForm = BookingForm()
     bookingForm['csrf_token'].data = request.cookies['csrf_token']
 
     if bookingForm.validate_on_submit():
