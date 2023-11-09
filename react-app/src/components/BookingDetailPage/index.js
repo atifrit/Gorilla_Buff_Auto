@@ -5,6 +5,12 @@ import { Link, Redirect, useParams } from "react-router-dom/cjs/react-router-dom
 
 import './BookingDetailPage.css'
 
+function reformatDate (date) {
+    let newDate = new Date(date).toLocaleDateString('en-US', {
+      timeZone: 'UTC',
+    }).replace(/\//g, '-');
+    return newDate;
+}
 
 const BookingsDetailPage = () => {
     const dispatch = useDispatch();
@@ -18,15 +24,14 @@ const BookingsDetailPage = () => {
     }, [dispatch, bookings])
 
 
-    const { id } = useParams();
+    const {bookingId} = useParams();
+    console.log('bookingId:', bookingId)
 
     let ownedBooking = false;
     let booking;
 
-    console.log('bookings: ', bookings);
-
     for (let el of bookings.user_bookings) {
-        if(bookings.id === id) {
+        if(el.id == bookingId) {
             booking = el;
             ownedBooking = true;
         }
@@ -36,10 +41,14 @@ const BookingsDetailPage = () => {
         return (
             <>
                 <div>
-                    <h2>Your Booking for {booking.appointment_date}</h2>
+                    <h2>Your Booking for {reformatDate(booking.appointment_date)}</h2>
+                    <h3>Car Type</h3>
                     <div>
                         {booking.car_type}
-                        {booking.service_type}
+                    </div>
+                    <h3>Service Type</h3>
+                    <div>
+                        {booking.service_type.replace('_', ' ')}
                     </div>
                 </div>
             </>
