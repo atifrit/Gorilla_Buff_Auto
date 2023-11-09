@@ -24,13 +24,14 @@ const BookingsDetailPage = () => {
     }, [dispatch, bookings])
 
 
-    const { id } = useParams();
+    const {bookingId} = useParams();
+    console.log('bookingId:', bookingId)
 
     let ownedBooking = false;
     let booking;
 
     for (let el of bookings.user_bookings) {
-        if(bookings.id === id) {
+        if(el.id == bookingId) {
             booking = el;
             ownedBooking = true;
         }

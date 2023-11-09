@@ -16,6 +16,7 @@ export const getUserBookings = () => async (dispatch) => {
         const response = await fetch('/api/bookings/');
         if(!response.ok) throw response;
         const data = await response.json();
+        console.log(data);
         dispatch(setUserBookings(data));
     } catch (error) {
         console.error('Error fetching user bookings: ', error);

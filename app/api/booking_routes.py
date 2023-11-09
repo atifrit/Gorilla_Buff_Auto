@@ -24,7 +24,7 @@ def get_current_user_bookings():
         if(transaction.booking_id not in booking_ids):
             booking_ids.append(transaction.booking_id)
 
-    bookings = Booking.query.filter_by(id=booking_ids[0]).all()
+    bookings = Booking.query.filter(Booking.id.in_(booking_ids)).all()
 
     booking_details=[]
 
