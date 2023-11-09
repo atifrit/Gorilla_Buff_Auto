@@ -8,7 +8,7 @@ import bookingsReducer from "../../store/bookings";
 export default function TransactionFormModal(props) {
     console.log('props: ', props);
     const dispatch = useDispatch();
-    const [paymentMethod, setPaymentMethod] = useState('1');
+    const [paymentMethod, setPaymentMethod] = useState('');
     const [errors, setErrors] = useState([]);
     const { closeModal } = useModal();
 
@@ -105,6 +105,7 @@ export default function TransactionFormModal(props) {
                     Payment Method:
                     <select value={paymentMethod}
                         onChange={(e) => setPaymentMethod(e.target.value)}>
+                        <option value=''>Select Payment Type</option>
                         <option value='credit'>Credit (paid in person)</option>
                         <option value='debit'>Debit (paid in person)</option>
                         <option value='cash'>Cash (paid in person)</option>
@@ -113,7 +114,7 @@ export default function TransactionFormModal(props) {
                 </label>
 
                 <div className="transactionFormModalSubmitContainer">
-                    <button type="submit" disabled={(paymentMethod === 'balance' && balanceChange > props.user.balance)} className="transactionSubmitButton" >Complete Transaction</button>
+                    <button type="submit" disabled={(paymentMethod === 'balance' && balanceChange > props.user.balance) || paymentMethod===''} className="transactionSubmitButton" >Complete Transaction</button>
                 </div>
             </form>
         </div>

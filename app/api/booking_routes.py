@@ -68,3 +68,43 @@ def createBooking():
         res_booking = Booking.query.filter_by(appointment_date=bookingForm.data['appointment_date']).first()
         return jsonify({'booking': res_booking.id}), 201
     return {'errors': validation_errors_to_error_messages(bookingForm.errors)}, 401
+
+
+@bookings_routes.route('/bookings/<int:booking_id>', methods=['DELETE'])
+@login_required
+def deleteBooking(booking_id):
+    booking = Booking.query.get(booking_id)
+
+    if not booking:
+        return jsonify({"error": "Booking not found"}), 404
+
+
+    db.session.delete(booking)
+    db.session.commit()
+
+    transactions = Transaction.query.filter_by(user_id=current_user.id).all()
+    booking_ids = []
+
+    for transaction in transactions:
+        if(transaction.booking_id not in booking_ids):
+            booking_ids.append(transaction.booking_id)
+
+    bookings = Booking.query.filter(Booking.id.in_(booking_ids)).all()
+
+    booking_details=[]
+
+    for booking in bookings:
+        booking_details.append(
+            {
+                'id': booking.id,
+                'appointment_date': booking.appointment_date,
+                'car_type': booking.car_type,
+                'service_type': booking.service_type
+            }
+        )
+
+
+    return jsonify({
+        'user_id': current_user.id,
+        'booking_details': booking_details
+        })
