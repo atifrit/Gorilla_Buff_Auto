@@ -180,9 +180,10 @@ function CreateBookingForm() {
                   car_type={carType}
                   service_type={serviceType}
                   appointment_date={appointmentDate}
+                  user={user}
                 />
               }
-              disabled={occupiedBool || pastBool}
+              disabled={occupiedBool || pastBool || appointmentDate === ""}
             />
             </>
         )
