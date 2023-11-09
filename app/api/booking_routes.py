@@ -70,7 +70,7 @@ def createBooking():
     return {'errors': validation_errors_to_error_messages(bookingForm.errors)}, 401
 
 
-@bookings_routes.route('/bookings/<int:booking_id>', methods=['DELETE'])
+@bookings_routes.route('/<int:booking_id>', methods=['DELETE'])
 @login_required
 def deleteBooking(booking_id):
     booking = Booking.query.get(booking_id)

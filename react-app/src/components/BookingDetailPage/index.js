@@ -5,6 +5,7 @@ import { Link, Redirect, useParams } from "react-router-dom/cjs/react-router-dom
 import OpenModalButton from "../OpenModalButton";
 import DeleteFormModal from "../DeleteFormModal";
 import './BookingDetailPage.css'
+import { useModal } from "../../context/Modal";
 
 function reformatDate(date) {
     let newDate = new Date(date).toLocaleDateString('en-US', {
@@ -17,6 +18,7 @@ const BookingsDetailPage = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user)
     const bookings = useSelector((state) => state.bookings)
+    const {closeMenu} = useModal();
 
     useEffect(() => {
         if (!bookings.user_id) {
@@ -27,6 +29,20 @@ const BookingsDetailPage = () => {
 
     const { bookingId } = useParams();
     console.log('bookingId:', bookingId)
+
+    let date
+
+    for (let el of bookings.user_bookings) {
+        if(el.id == bookingId) {
+            date = el.appointment_date;
+        }
+    }
+
+    let displayBool = false;
+
+    if (new Date().getTime() > new Date(date).getTime()) {
+        displayBool = true;
+    }
 
     let ownedBooking = false;
     let booking;
@@ -62,6 +78,7 @@ const BookingsDetailPage = () => {
                                 bookingId={booking.id}
                             />
                         }
+                        hidden = {displayBool}
                     />
                 </div>
             </>
