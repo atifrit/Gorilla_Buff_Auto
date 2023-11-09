@@ -38,7 +38,7 @@ const UserDetails = () => {
                     <button className="add-funds-btn" onClick={handleAddFunds}>
                         Add Funds
                     </button>
-                    <button className="withdraw-funds-btn" onClick={handleRemoveFunds}>
+                    <button className="withdraw-funds-btn" onClick={handleRemoveFunds} disabled={user.balance == 0 || user.balance < 0}>
                         Withdraw Funds
                     </button>
                 </div>

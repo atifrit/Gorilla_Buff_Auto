@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { getAllDates } from "../../store/bookings";
+import OpenModalButton from "../OpenModalButton";
+import TransactionFormModal from "../TransactionFormModal";
 
 
 
 import './CreateBookingPage.css';
+
 
 
 function reformatDate (date) {
@@ -23,6 +26,23 @@ function CreateBookingForm() {
     const [serviceType, setServiceType] = useState('');
     const [carType, setCarType] = useState('');
     const [errors, setErrors] = useState([]);
+    const [showMenu, setShowMenu] = useState(false);
+
+    const closeMenu = (e) => {
+      setShowMenu(false);
+    };
+    const openMenu = () => {
+        if (showMenu) return;
+        setShowMenu(true);
+      };
+
+      useEffect(() => {
+        if (!showMenu) return;
+
+        document.addEventListener("click", closeMenu);
+
+        return () => document.removeEventListener("click", closeMenu);
+      }, [showMenu]);
 
     useEffect(() => {
         if (!bookings.occupiedDates || bookings.occupiedDates.length === 0) {
@@ -150,8 +170,20 @@ function CreateBookingForm() {
                         <option value='full'>Premium Exterior and Interior Detail</option>
                     </select>
 
-                    <button id="booking-submit-button" type="submit" disabled={occupiedBool || pastBool}>Create Appointment</button>
                 </form>
+                <OpenModalButton
+              className='openTransactionModal'
+              buttonText="Create Booking"
+              onItemClick={closeMenu}
+              modalComponent={
+                <TransactionFormModal
+                  car_type={carType}
+                  service_type={serviceType}
+                  appointment_date={appointmentDate}
+                />
+              }
+              disabled={occupiedBool || pastBool}
+            />
             </>
         )
     } else return (<Redirect to='/' />)
