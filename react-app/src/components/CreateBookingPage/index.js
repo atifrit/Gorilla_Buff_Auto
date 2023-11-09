@@ -159,12 +159,14 @@ function CreateBookingForm() {
                         setCarType(e.target.value);
                         console.log(carType);
                         }}>
+                        <option value=''>Car Type</option>
                         <option value='sedan'>Sedan</option>
                         <option value='sport'>Sport</option>
                         <option value='suv'>SUV</option>
                     </select>
                     <label htmlFor="service">Select Service Type:</label>
                     <select name='service' value={serviceType} onChange={(e) => setServiceType(e.target.value)}>
+                        <option value=''>Service Type</option>
                         <option value='basic'>Basic Wash</option>
                         <option value='premium'>Premium Exterior Detail</option>
                         <option value='full'>Premium Exterior and Interior Detail</option>
@@ -183,7 +185,7 @@ function CreateBookingForm() {
                   user={user}
                 />
               }
-              disabled={occupiedBool || pastBool || appointmentDate === ""}
+              disabled={occupiedBool || pastBool || appointmentDate === "" || carType==='' || serviceType===''}
             />
             </>
         )

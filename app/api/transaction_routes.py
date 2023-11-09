@@ -13,7 +13,7 @@ def validation_errors_to_error_messages(validation_errors):
 
 transaction_routes = Blueprint('transactions', __name__)
 
-transaction_routes.route('/')
+@transaction_routes.route('/')
 @login_required
 def getUserTransactions():
     transactions = Transaction.query.filter_by(user_id=current_user.id).all()
@@ -33,7 +33,7 @@ def getUserTransactions():
 
 
 
-transaction_routes.route('/', methods=['POST'])
+@transaction_routes.route('/', methods=['POST'])
 @login_required
 def createTransaction():
     transactionForm=TransactionForm()
@@ -42,11 +42,12 @@ def createTransaction():
     if transactionForm.validate_on_submit():
         new_transaction = Transaction(user_id=current_user.id, booking_id=transactionForm.data['booking_id'], payment_method=transactionForm.data['payment_method'])
         db.session.add(new_transaction)
+        db.session.commit()
         if(transactionForm.data['payment_method'] == 'balance'):
             user=User.query.filter_by(id=current_user.id).first()
             user.balance+=transactionForm.data['balance_change']
             db.session.commit()
             return jsonify({"message": "balance deduction successful"}), 201
-        return ({"message": "transaction successful"}), 201
+        return ({"message": "transaction successful"}), 202
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401

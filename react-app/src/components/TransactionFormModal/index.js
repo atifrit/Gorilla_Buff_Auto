@@ -6,6 +6,7 @@ import './TransactionForm.css';
 import bookingsReducer from "../../store/bookings";
 
 export default function TransactionFormModal(props) {
+    console.log('props: ', props);
     const dispatch = useDispatch();
     const [paymentMethod, setPaymentMethod] = useState('1');
     const [errors, setErrors] = useState([]);
@@ -69,7 +70,7 @@ export default function TransactionFormModal(props) {
             setErrors(errorsStrings);
         } else {
             let new_booking = await booking_reponse.json()
-            let booking_id = new_booking.id
+            let booking_id = new_booking.booking
             let transaction_reponse = await fetch('/api/transactions/', {
                 method: 'POST',
                 headers: {
@@ -78,9 +79,9 @@ export default function TransactionFormModal(props) {
                 body: JSON.stringify({ user_id, booking_id, payment_method, balance_change })
             })
             if (transaction_reponse.status > 400) {
-                let res = await booking_reponse.json();
+                let transaction_res = await transaction_reponse.json();
                 let errorsStrings = []
-                for (let el of res.errors) {
+                for (let el of transaction_res.errors) {
                     for (let i in el) {
                         errorsStrings.push(el)
                     }

@@ -65,6 +65,6 @@ def createBooking():
         new_booking = Booking(appointment_date=bookingForm.data['appointment_date'], car_type=bookingForm.data['car_type'], service_type=bookingForm.data['service_type'])
         db.session.add(new_booking)
         db.session.commit()
-        res_booking = Booking.query.filter_by('appointment_date'==bookingForm.data['appointment_date']).first()
-        return jsonify({'booking': res_booking}), 201
+        res_booking = Booking.query.filter_by(appointment_date=bookingForm.data['appointment_date']).first()
+        return jsonify({'booking': res_booking.id}), 201
     return {'errors': validation_errors_to_error_messages(bookingForm.errors)}, 401
