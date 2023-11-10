@@ -6,6 +6,8 @@ import OpenModalButton from "../OpenModalButton";
 import DeleteFormModal from "../DeleteFormModal";
 import './BookingDetailPage.css'
 import { useModal } from "../../context/Modal";
+import BookingUpdateModal from "../BookingUpdateModal";
+import { getTransactions } from "../../store/transactions";
 
 function reformatDate(date) {
     let newDate = new Date(date).toLocaleDateString('en-US', {
@@ -18,17 +20,26 @@ const BookingsDetailPage = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user)
     const bookings = useSelector((state) => state.bookings)
+    const transactions = useSelector((state) => state.transactions)
     const {closeMenu} = useModal();
 
     useEffect(() => {
         if (!bookings.user_id) {
             dispatch(getUserBookings());
+            dispatch(getTransactions())
         }
     }, [dispatch, bookings])
 
 
     const { bookingId } = useParams();
-    console.log('bookingId:', bookingId)
+    let payment_method;
+
+    for (let el of transactions.transactionObjs) {
+        if(bookingId == el.booking_id) {
+            payment_method = el.payment_method;
+            break
+        }
+    }
 
     let date
 
@@ -81,6 +92,23 @@ const BookingsDetailPage = () => {
                             />
                         }
                         hidden = {displayBool}
+                    />
+                    <OpenModalButton
+                        className='openDeleteModal'
+                        buttonText="Update Booking"
+                        onItemClick={closeMenu}
+                        modalComponent={
+                            <BookingUpdateModal
+                                bookingId={booking.id}
+                                car_type={booking.car_type}
+                                service_type={booking.service_type}
+                                appointment_date={booking.appointment_date}
+                                user={user}
+                                payment_method={payment_method}
+                                bookings = {bookings}
+                            />
+                        }
+                        hidden = {new Date().getTime() >= new Date(booking.appointment_date).getTime() ? true : false}
                     />
                 </div>
             </>

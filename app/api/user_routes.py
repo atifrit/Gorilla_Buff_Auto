@@ -37,9 +37,6 @@ def userbalanceadd():
 
     amount = float(data['amount'])
 
-    if amount < 0:
-        return jsonify({'error': 'Invalid amount'}), 400
-
     user.balance += amount
 
     db.session.commit()
@@ -60,8 +57,6 @@ def userbalanceremove():
 
     amount = float(data['amount'])
 
-    if amount < 0:
-        return jsonify({'error': 'Invalid amount'}), 400
 
     if amount > user.balance:
         return jsonify({'error': 'Insufficient funds'}), 400
