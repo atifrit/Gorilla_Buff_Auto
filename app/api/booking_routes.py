@@ -108,3 +108,21 @@ def deleteBooking(booking_id):
         'user_id': current_user.id,
         'booking_details': booking_details
         })
+
+
+@bookings_routes.route('/<int:booking_id>', methods=['PUT'])
+@login_required
+def updateBooking(booking_id):
+    bookingForm = BookingForm()
+    bookingForm['csrf_token'].data = request.cookies['csrf_token']
+
+    if bookingForm.validate_on_submit():
+        booking = Booking.query.get(booking_id)
+        booking.appointment_date = bookingForm.data['appointment_date']
+        booking.car_type = bookingForm.data['car_type']
+        booking.service_type = bookingForm.data['service_type']
+        db.session.commit()
+
+        return jsonify({'message': 'update successful'}), 201
+
+    return {'errors': validation_errors_to_error_messages(bookingForm.errors)}, 401

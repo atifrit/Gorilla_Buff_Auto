@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserBookings } from "../../store/bookings";
+import { getAllDates, getUserBookings } from "../../store/bookings";
 import { Link, Redirect, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import './user_booking_page.css';
 
@@ -20,6 +20,7 @@ const BookingsPage = () => {
     useEffect(() => {
         if (!bookings.user_id) {
             dispatch(getUserBookings());
+            dispatch(getAllDates());
         }
     }, [dispatch, bookings])
 
