@@ -4,7 +4,6 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.forms import TransactionForm
 from sqlalchemy import desc
 
-
 def validation_errors_to_error_messages(validation_errors):
     errorMessages = []
     for field in validation_errors:
@@ -50,4 +49,22 @@ def createTransaction():
             return jsonify({"message": "balance deduction successful"}), 201
         return ({"message": "transaction successful"}), 201
 
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return {'errors': validation_errors_to_error_messages(transactionForm.errors)}, 401
+
+
+@transaction_routes.route('/<int:transaction_id>', methods=['PUT'])
+@login_required
+def updateTransaction(transaction_id):
+    transactionForm=TransactionForm()
+    transactionForm['csrf_token'].data = request.cookies['csrf_token']
+
+
+    if transactionForm.validate_on_submit():
+        transaction = Transaction.query.get(transaction_id)
+        ogPay = transaction.payment_method
+        transaction.payment_method = transactionForm.data['payment_method']
+        db.session.commit()
+
+        return jsonify({'message': 'update successful'}), 201
+
+    return {'errors': validation_errors_to_error_messages(transactionForm.errors)}, 401

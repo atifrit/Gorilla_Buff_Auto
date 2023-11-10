@@ -7,6 +7,7 @@ import OpenModalButton from "../OpenModalButton";
 import { useModal } from "../../context/Modal";
 import AddFundsModal from "../AddFundsModal";
 import RemoveFundsModal from "../RemoveFundsModal";
+import TransactionUpdateModal from "../TransactionUpdateModal";
 import './UserDetails.css'
 
 const UserDetails = () => {
@@ -17,7 +18,11 @@ const UserDetails = () => {
     console.log('transactions.hydrated: ', transactions.hydrated)
     const { modalContent, setModalContent } = useModal();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
 
+    const closeMenu = (e) => {
+        setShowMenu(false);
+    };
     useEffect(() => {
         if (!bookings.user_id) {
             dispatch(getUserBookings());
@@ -64,9 +69,12 @@ const UserDetails = () => {
                     <div>
                         {transactions.transactionObjs.map((transaction) => {
                             let bookingDate
+                            let bookingId
                             for(let el of bookings.user_bookings) {
                                 if (transaction.booking_id == el.id) {
                                     bookingDate = el.appointment_date;
+                                    bookingId = el.id
+                                    bookingDate = el.appointment_date
                                 }
                             }
                             return (
@@ -75,19 +83,21 @@ const UserDetails = () => {
                                     <p>Transaction Date: {transaction.created_at}</p>
                                     <p>Payment Method: {transaction.payment_method}</p>
                                     <p>Transaction Amount: {transaction.price.toFixed(2)}</p>
-                                    {/* <OpenModalButton
+                                    <OpenModalButton
                                         className='openTransactionModal'
                                         buttonText="Update Payment Method"
                                         onItemClick={closeMenu}
                                         modalComponent={
                                             <TransactionUpdateModal
-                                                car_type={carType}
-                                                service_type={serviceType}
-                                                appointment_date={appointmentDate}
+                                                transaction_id={transaction.id}
+                                                paymentMethod={transaction.payment_method}
+                                                booking_id={bookingId}
+                                                price={transaction.price}
                                                 user={user}
                                             />
                                         }
-                                    /> */}
+                                        hidden={new Date().getTime() >= new Date(bookingDate).getTime() ? true : false}
+                                    />
                                 </div>
                             )
                         })}
