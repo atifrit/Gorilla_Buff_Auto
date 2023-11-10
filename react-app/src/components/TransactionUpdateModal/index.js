@@ -2,10 +2,10 @@ import React, { useState, useEffect, useSelector } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 
-import './TransactionUpdate.css';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { removeBalanceFromUser, addBalanceToUser } from "../../store/session";
 import { getTransactions } from "../../store/transactions";
+import './TransactionUpdate.css';
 
 
 export default function TransactionUpdateModal(props) {

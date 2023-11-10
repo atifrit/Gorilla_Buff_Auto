@@ -61,7 +61,6 @@ def updateTransaction(transaction_id):
 
     if transactionForm.validate_on_submit():
         transaction = Transaction.query.get(transaction_id)
-        ogPay = transaction.payment_method
         transaction.payment_method = transactionForm.data['payment_method']
         db.session.commit()
 
