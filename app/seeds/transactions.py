@@ -16,9 +16,9 @@ def seed_transactions():
     demo_date = datetime.date(2020, 12, 20)
     bobbie_date = datetime.date(2023, 10, 21)
 
-    demo_transaction = Transaction(user_id=demo_booking.id, booking_id=demo_booking.id, payment_method='credit', created_at=demo_date)
-    marnie_transaction = Transaction(user_id=marnie_booking.id, booking_id=marnie_booking.id, payment_method='debit')
-    bobbie_transaction = Transaction(user_id=bobbie_booking.id, booking_id=bobbie_booking.id, payment_method='cash', created_at=bobbie_date)
+    demo_transaction = Transaction(user_id=demo_booking.id, booking_id=demo_booking.id, payment_method='credit', created_at=demo_date, price=200)
+    marnie_transaction = Transaction(user_id=marnie_booking.id, booking_id=marnie_booking.id, payment_method='debit', price=100)
+    bobbie_transaction = Transaction(user_id=bobbie_booking.id, booking_id=bobbie_booking.id, payment_method='cash', created_at=bobbie_date, price=300)
 
     db.session.add(demo_transaction)
     db.session.add(marnie_transaction)

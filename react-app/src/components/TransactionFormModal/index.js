@@ -4,8 +4,12 @@ import { useModal } from "../../context/Modal";
 
 import './TransactionForm.css';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { removeBalanceFromUser } from "../../store/session";
+import { getUserBookings } from "../../store/bookings";
+import { getTransactions } from "../../store/transactions";
 
 export default function TransactionFormModal(props) {
+    const dispatch = useDispatch();
     const [paymentMethod, setPaymentMethod] = useState('');
     const [errors, setErrors] = useState([]);
     const { closeModal } = useModal();
@@ -88,6 +92,9 @@ export default function TransactionFormModal(props) {
                 setErrors(errorsStrings);
             } else {
                 closeModal();
+                dispatch(removeBalanceFromUser(balance_change))
+                dispatch(getUserBookings())
+                dispatch(getTransactions())
                 alert('Thank you for your purchase!')
                 history.push('/bookings/')
             }
