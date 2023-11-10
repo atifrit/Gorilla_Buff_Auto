@@ -3,6 +3,8 @@ import { login } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import './LoginForm.css';
+import { getUserBookings } from "../../store/bookings";
+import { getTransactions } from "../../store/transactions";
 
 function LoginFormPage() {
   const dispatch = useDispatch();
@@ -18,8 +20,22 @@ function LoginFormPage() {
     const data = await dispatch(login(email, password));
     if (data) {
       setErrors(data);
+    } else {
+      dispatch(getUserBookings())
+      dispatch(getTransactions())
     }
   };
+
+  const handleDemoUser = async (e) => {
+    e.preventDefault();
+    const data = await dispatch(login('demo@aa.io', 'password'))
+    if(data) {
+      setErrors(data);
+    } else {
+      dispatch(getUserBookings())
+      dispatch(getTransactions())
+    }
+  }
 
   return (
     <>
@@ -50,6 +66,7 @@ function LoginFormPage() {
         </label>
         <button type="submit">Log In</button>
       </form>
+      <button onClick={handleDemoUser}>Demo User</button>
     </>
   );
 }

@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { signUp } from "../../store/session";
 import './SignupForm.css';
+import { getUserBookings } from "../../store/bookings";
+import { getTransactions } from "../../store/transactions";
 
 function SignupFormPage() {
   const dispatch = useDispatch();
@@ -21,6 +23,9 @@ function SignupFormPage() {
         const data = await dispatch(signUp(username, email, password));
         if (data) {
           setErrors(data)
+        } else {
+          dispatch(getUserBookings())
+          dispatch(getTransactions())
         }
     } else {
         setErrors(['Confirm Password field must be the same as the Password field']);
