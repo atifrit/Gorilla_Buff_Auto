@@ -18,7 +18,7 @@ const AddFundsModal = () => {
 
     try {
       await dispatch(addBalanceToUser(amount));
-      window.location.reload();
+      closeModal()
     } catch (error) {
       setError("An error occurred while adding funds.");
     }

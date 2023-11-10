@@ -76,6 +76,8 @@ const BookingsDetailPage = () => {
                         modalComponent={
                             <DeleteFormModal
                                 bookingId={booking.id}
+                                car_type={booking.car_type}
+                                service_type={booking.service_type}
                             />
                         }
                         hidden = {displayBool}

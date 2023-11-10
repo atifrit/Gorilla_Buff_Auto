@@ -151,11 +151,11 @@ export default function reducer(state = initialState, action) {
 			return { user: null };
 		case ADD_BALANCE:
 			return {
-				user: {...state.session.user, balance: action.payload.new_balance}
+				...state, user:{...state.user, balance: action.payload}
 			}
 		case REMOVE_BALANCE:
 			return {
-				user: {...state.session.user, balance: action.payload.new_balance}
+				...state, user:{...state.user, balance: action.payload}
 			}
 		default:
 			return state;

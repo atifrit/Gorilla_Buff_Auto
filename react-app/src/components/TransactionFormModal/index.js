@@ -3,14 +3,13 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 
 import './TransactionForm.css';
-import bookingsReducer from "../../store/bookings";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function TransactionFormModal(props) {
-    console.log('props: ', props);
-    const dispatch = useDispatch();
     const [paymentMethod, setPaymentMethod] = useState('');
     const [errors, setErrors] = useState([]);
     const { closeModal } = useModal();
+    const history = useHistory();
 
     let sedan = 1;
     let sport = 2;
@@ -90,7 +89,7 @@ export default function TransactionFormModal(props) {
             } else {
                 closeModal();
                 alert('Thank you for your purchase!')
-                window.location.reload()
+                history.push('/bookings/')
             }
         }
 
@@ -99,6 +98,7 @@ export default function TransactionFormModal(props) {
     return (
         <div className='transactionFormContainer'>
             <h1>Complete Your Transaction</h1>
+            <p>{balanceChange > 0 ? `Total: $${balanceChange.toFixed(2)}`:null}</p>
             <form className='transactionFormModalForm' onSubmit={handleSubmit}>
                 <p className="errors">{(paymentMethod === 'balance' && balanceChange > props.user.balance) ? 'Inusfficient Funds' : null}</p>
                 <label>

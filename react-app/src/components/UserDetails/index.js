@@ -32,7 +32,7 @@ const UserDetails = () => {
                     <h3>Account Info</h3>
                     <div>Username: {user.username}</div>
                     <div>Email: {user.email}</div>
-                    <div>Account Balance: {user.balance}</div>
+                    <div>Account Balance: ${user.balance.toFixed(2)}</div>
                 </div>
                 <div>
                     <button className="add-funds-btn" onClick={handleAddFunds}>
