@@ -5,6 +5,7 @@ import { useModal } from "../../context/Modal";
 import { addBalanceToUser } from "../../store/session";
 import './DeleteFormModal.css';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { getTransactions } from "../../store/transactions";
 
 export default function DeleteFormModal(props) {
     let bookingId = Number(props.bookingId);
@@ -67,7 +68,8 @@ export default function DeleteFormModal(props) {
             dispatch(getUserBookings(data))
             dispatch(getAllDates())
             dispatch(addBalanceToUser(balanceChange))
-            window.location.reload()
+            dispatch(getTransactions())
+            history.push('/boookings/')
             closeModal()
         }
     }
