@@ -11,4 +11,4 @@ class Booking(db.Model):
     car_type = db.Column(db.String(255), nullable=False)
     service_type = db.Column(db.String(255), nullable=False)
 
-    transactions = db.relationship('Transaction', back_populates='booking')
+    transactions = db.relationship('Transaction', back_populates='booking',  cascade='all, delete-orphan')

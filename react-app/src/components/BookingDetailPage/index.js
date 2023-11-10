@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserBookings } from "../../store/bookings";
 import { Link, Redirect, useParams } from "react-router-dom/cjs/react-router-dom.min";
-
+import OpenModalButton from "../OpenModalButton";
+import DeleteFormModal from "../DeleteFormModal";
 import './BookingDetailPage.css'
+import { useModal } from "../../context/Modal";
 
-function reformatDate (date) {
+function reformatDate(date) {
     let newDate = new Date(date).toLocaleDateString('en-US', {
-      timeZone: 'UTC',
+        timeZone: 'UTC',
     }).replace(/\//g, '-');
     return newDate;
 }
@@ -16,6 +18,7 @@ const BookingsDetailPage = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user)
     const bookings = useSelector((state) => state.bookings)
+    const {closeMenu} = useModal();
 
     useEffect(() => {
         if (!bookings.user_id) {
@@ -24,20 +27,34 @@ const BookingsDetailPage = () => {
     }, [dispatch, bookings])
 
 
-    const {bookingId} = useParams();
+    const { bookingId } = useParams();
     console.log('bookingId:', bookingId)
+
+    let date
+
+    for (let el of bookings.user_bookings) {
+        if(el.id == bookingId) {
+            date = el.appointment_date;
+        }
+    }
+
+    let displayBool = false;
+
+    if (new Date().getTime() > new Date(date).getTime()) {
+        displayBool = true;
+    }
 
     let ownedBooking = false;
     let booking;
 
     for (let el of bookings.user_bookings) {
-        if(el.id == bookingId) {
+        if (el.id == bookingId) {
             booking = el;
             ownedBooking = true;
         }
     }
 
-    if(ownedBooking) {
+    if (ownedBooking) {
         return (
             <>
                 <div>
@@ -50,6 +67,21 @@ const BookingsDetailPage = () => {
                     <div>
                         {booking.service_type.replace('_', ' ')}
                     </div>
+                </div>
+                <div className='bookingManagementButtonContainer'>
+                    <OpenModalButton
+                        className='openDeleteModal'
+                        buttonText="Request Refund"
+                        onItemClick={closeMenu}
+                        modalComponent={
+                            <DeleteFormModal
+                                bookingId={booking.id}
+                                car_type={booking.car_type}
+                                service_type={booking.service_type}
+                            />
+                        }
+                        hidden = {displayBool}
+                    />
                 </div>
             </>
         )

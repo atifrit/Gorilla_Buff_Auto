@@ -19,7 +19,7 @@ const RemoveFundsModal = () => {
 
     try {
       await dispatch(removeBalanceFromUser(amount));
-      window.location.reload();
+      closeModal()
     } catch (error) {
       if (error.error === "Insufficient funds") {
         setError("Insufficient funds. You cannot withdraw more than you have.");

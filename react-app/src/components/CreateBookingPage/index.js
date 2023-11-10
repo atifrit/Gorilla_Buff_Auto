@@ -11,9 +11,9 @@ import './CreateBookingPage.css';
 
 
 
-function reformatDate (date) {
+function reformatDate(date) {
     let newDate = new Date(date).toLocaleDateString('en-US', {
-      timeZone: 'UTC',
+        timeZone: 'UTC',
     }).replace(/\//g, '-');
     return newDate;
 }
@@ -29,20 +29,20 @@ function CreateBookingForm() {
     const [showMenu, setShowMenu] = useState(false);
 
     const closeMenu = (e) => {
-      setShowMenu(false);
+        setShowMenu(false);
     };
     const openMenu = () => {
         if (showMenu) return;
         setShowMenu(true);
-      };
+    };
 
-      useEffect(() => {
+    useEffect(() => {
         if (!showMenu) return;
 
         document.addEventListener("click", closeMenu);
 
         return () => document.removeEventListener("click", closeMenu);
-      }, [showMenu]);
+    }, [showMenu]);
 
     useEffect(() => {
         if (!bookings.occupiedDates || bookings.occupiedDates.length === 0) {
@@ -62,7 +62,7 @@ function CreateBookingForm() {
 
         console.log(comparison);
 
-        if(appointmentDate.length) {
+        if (appointmentDate.length) {
             let inputDay = appointmentDate.slice(8);
             let inputMonth = appointmentDate.slice(5, 7)
             let inputYear = appointmentDate.slice(0, 4)
@@ -73,7 +73,7 @@ function CreateBookingForm() {
         console.log('input date: ', inputDate);
 
 
-        if(comparison == inputDate) {
+        if (comparison == inputDate) {
             occupiedBool = true;
         }
     }
@@ -120,7 +120,7 @@ function CreateBookingForm() {
             service = full;
         }
 
-        let price = car*service;
+        let price = car * service;
 
 
         let booking = {
@@ -133,7 +133,7 @@ function CreateBookingForm() {
 
 
 
-    if(user) {
+    if (user) {
         return (
             <>
                 <h2>Create a New Appointment</h2>
@@ -142,15 +142,15 @@ function CreateBookingForm() {
                 </ul>
                 <form onSubmit={handleSumbit}>
                     <input
-                    type='date'
-                    name='dateInput'
-                    value={appointmentDate}
-                    placeholder="Appointment Date"
-                    onChange={(e) => {
-                        setAppointmentDate(e.target.value);
-                        console.log(appointmentDate);
-                    }}
-                    required
+                        type='date'
+                        name='dateInput'
+                        value={appointmentDate}
+                        placeholder="Appointment Date"
+                        onChange={(e) => {
+                            setAppointmentDate(e.target.value);
+                            console.log(appointmentDate);
+                        }}
+                        required
                     />
                     <p className="errors">{occupiedBool && !pastBool ? 'Appointment Date Taken' : null}</p>
                     <p className="errors">{pastBool ? 'Cannot make Appointments in the Past' : null}</p>
@@ -158,7 +158,7 @@ function CreateBookingForm() {
                     <select name='car' value={carType} onChange={(e) => {
                         setCarType(e.target.value);
                         console.log(carType);
-                        }}>
+                    }}>
                         <option value=''>Car Type</option>
                         <option value='sedan'>Sedan</option>
                         <option value='sport'>Sport</option>
@@ -174,19 +174,19 @@ function CreateBookingForm() {
 
                 </form>
                 <OpenModalButton
-              className='openTransactionModal'
-              buttonText="Create Booking"
-              onItemClick={closeMenu}
-              modalComponent={
-                <TransactionFormModal
-                  car_type={carType}
-                  service_type={serviceType}
-                  appointment_date={appointmentDate}
-                  user={user}
+                    className='openTransactionModal'
+                    buttonText="Create Booking"
+                    onItemClick={closeMenu}
+                    modalComponent={
+                        <TransactionFormModal
+                            car_type={carType}
+                            service_type={serviceType}
+                            appointment_date={appointmentDate}
+                            user={user}
+                        />
+                    }
+                    disabled={occupiedBool || pastBool || appointmentDate === "" || carType === '' || serviceType === ''}
                 />
-              }
-              disabled={occupiedBool || pastBool || appointmentDate === "" || carType==='' || serviceType===''}
-            />
             </>
         )
     } else return (<Redirect to='/' />)

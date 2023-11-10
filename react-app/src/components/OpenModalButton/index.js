@@ -6,7 +6,8 @@ function OpenModalButton({
   buttonText, // text of the button that opens the modal
   onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
   onModalClose, // optional: callback function that will be called once the modal is closed
-  disabled
+  disabled,
+  hidden
 }) {
   const { setModalContent, setOnModalClose } = useModal();
 
@@ -17,13 +18,18 @@ function OpenModalButton({
   };
 
   let disabled_val = false
+  let hidden_val = false
 
   if(disabled){
     disabled_val = true
   }
 
+  if (hidden) {
+    hidden_val = true
+  }
+
   return (
-    <button onClick={onClick} disabled={disabled_val}>{buttonText}</button>
+    <button onClick={onClick} disabled={disabled_val} hidden={hidden_val}>{buttonText}</button>
   );
 }
 
