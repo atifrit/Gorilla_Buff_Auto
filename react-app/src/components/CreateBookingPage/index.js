@@ -135,13 +135,15 @@ function CreateBookingForm() {
 
     if (user) {
         return (
-            <>
-                <h2>Create a New Appointment</h2>
+            <div className = 'newbookingcontainer'>
+            <div className="signupformMod2">
+                <h2 className="h1title">Create a New Appointment</h2>
                 <ul className="signup-errors">
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
                 <form onSubmit={handleSumbit}>
                     <input
+                        className="signupFormInput"
                         type='date'
                         name='dateInput'
                         value={appointmentDate}
@@ -154,8 +156,8 @@ function CreateBookingForm() {
                     />
                     <p className="errors">{occupiedBool && !pastBool ? 'Appointment Date Taken' : null}</p>
                     <p className="errors">{pastBool ? 'Cannot make Appointments in the Past' : null}</p>
-                    <label htmlFor="car">Select Car Type:</label>
-                    <select name='car' value={carType} onChange={(e) => {
+                    <label className="displayText" htmlFor="car">Select Car Type:</label>
+                    <select className="signupFormInput" name='car' value={carType} onChange={(e) => {
                         setCarType(e.target.value);
                         console.log(carType);
                     }}>
@@ -164,8 +166,8 @@ function CreateBookingForm() {
                         <option value='sport'>Sport</option>
                         <option value='suv'>SUV</option>
                     </select>
-                    <label htmlFor="service">Select Service Type:</label>
-                    <select name='service' value={serviceType} onChange={(e) => setServiceType(e.target.value)}>
+                    <label className="displayText" htmlFor="service">Select Service Type:</label>
+                    <select className="signupFormInput" name='service' value={serviceType} onChange={(e) => setServiceType(e.target.value)}>
                         <option value=''>Service Type</option>
                         <option value='basic'>Basic Wash</option>
                         <option value='premium'>Premium Exterior Detail</option>
@@ -174,7 +176,7 @@ function CreateBookingForm() {
 
                 </form>
                 <OpenModalButton
-                    className='openTransactionModal'
+                    className='withdrawbutton'
                     buttonText="Create Booking"
                     onItemClick={closeMenu}
                     modalComponent={
@@ -187,7 +189,8 @@ function CreateBookingForm() {
                     }
                     disabled={occupiedBool || pastBool || appointmentDate === "" || carType === '' || serviceType === ''}
                 />
-            </>
+            </div>
+            </div>
         )
     } else return (<Redirect to='/' />)
 

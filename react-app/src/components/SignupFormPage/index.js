@@ -20,34 +20,37 @@ function SignupFormPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
-        const data = await dispatch(signUp(username, email, password));
-        if (data) {
-          setErrors(data)
-        } else {
-          dispatch(getUserBookings())
-          dispatch(getTransactions())
-        }
+      const data = await dispatch(signUp(username, email, password));
+      if (data) {
+        setErrors(data)
+      } else {
+        dispatch(getUserBookings())
+        dispatch(getTransactions())
+      }
     } else {
-        setErrors(['Confirm Password field must be the same as the Password field']);
+      setErrors(['Confirm Password field must be the same as the Password field']);
     }
   };
 
   return (
-    <>
+    <div className="signUpContainer">
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="signupform" onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
         </ul>
-        <p className="errors">{email.length < 4 && email.length > 0 ? 'email must be greater than 4 characters': null}</p>
-        <p className="errors">{email.length > 50 ? 'email must be less than 50 characters': null}</p>
-        <p className="errors">{username.length < 4 && username.length > 0 ? 'username must be greater than 4 characters': null}</p>
-        <p className="errors">{username.length > 50 ? 'username must be less than 50 characters': null}</p>
-        <p className="errors">{password.length < 8 && password.length > 0 ? 'password must be at least 8 characters': null}</p>
-        <p className="errors">{password.length > 50 ? 'password must be less than 50 characters': null}</p>
+        <div>
+          <p className="errors">{email.length < 4 && email.length > 0 ? 'email must be greater than 4 characters' : null}</p>
+          <p className="errors">{email.length > 50 ? 'email must be less than 50 characters' : null}</p>
+          <p className="errors">{username.length < 4 && username.length > 0 ? 'username must be greater than 4 characters' : null}</p>
+          <p className="errors">{username.length > 50 ? 'username must be less than 50 characters' : null}</p>
+          <p className="errors">{password.length < 8 && password.length > 0 ? 'password must be at least 8 characters' : null}</p>
+          <p className="errors">{password.length > 50 ? 'password must be less than 50 characters' : null}</p>
+        </div>
         <label>
-          Email
           <input
+            placeholder="Email"
+            className="signupFormInput"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -55,8 +58,9 @@ function SignupFormPage() {
           />
         </label>
         <label>
-          Username
           <input
+            placeholder="Username"
+            className="signupFormInput"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -64,8 +68,9 @@ function SignupFormPage() {
           />
         </label>
         <label>
-          Password
           <input
+            placeholder="Password"
+            className="signupFormInput"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -73,17 +78,18 @@ function SignupFormPage() {
           />
         </label>
         <label>
-          Confirm Password
           <input
+            placeholder="Confirm Password"
+            className="signupFormInput"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </label>
-        <button type="submit">Sign Up</button>
+        <button className="signupbutton" type="submit" disabled={email.length < 4 || email.length > 50 || username.length < 4 || username.length > 50 || password.length < 8 || password.length > 50}>Sign Up</button>
       </form>
-    </>
+    </div>
   );
 }
 

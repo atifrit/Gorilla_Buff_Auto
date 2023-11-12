@@ -5,6 +5,12 @@ import { Link, Redirect, useHistory } from "react-router-dom/cjs/react-router-do
 import './user_booking_page.css';
 import { getTransactions } from "../../store/transactions";
 
+function reformatDate(date) {
+    let newDate = new Date(date).toLocaleDateString('en-US', {
+        timeZone: 'UTC',
+    }).replace(/\//g, '-');
+    return newDate;
+}
 
 
 const handleClick = () => {
@@ -29,35 +35,35 @@ const BookingsPage = () => {
     return (
         <>
             <div className='user_bookings_page_container'>
+                <div className='signupformMod'>
                 <h2>Upcoming Appointments</h2>
-                <div className='upcoming_appointments'>
                     {bookings.user_bookings.map((booking) => {
                         if (new Date().getTime() < new Date(booking.appointment_date).getTime()) {
                             return (
                                 <div className='bookingDetail'>
                                     <Link
-                                        to={`/bookings/${booking.id}`}><div>{booking.appointment_date} {booking.car_type} {booking.servive_type}</div></Link>
+                                        className='displayLinks' to={`/bookings/${booking.id}`}><div>{reformatDate(booking.appointment_date)} {booking.car_type}</div></Link>
                                 </div>
                             )
                         } else return null
                     })}
                 </div>
+                <div className="signupformMod">
                 <h2>Past Appointments</h2>
-                <div className="past_bookings">
                     {bookings.user_bookings.map((booking) => {
                         if (new Date().getTime() >= new Date(booking.appointment_date).getTime()) {
                             return (
                                 <div className='bookingDetail'>
                                     <Link
-                                        to={`/bookings/${booking.id}`}><div>{booking.appointment_date} {booking.car_type} {booking.servive_type}</div></Link>
+                                        className='displayLinks' to={`/bookings/${booking.id}`}><div>{reformatDate(booking.appointment_date)} {booking.car_type}</div></Link>
                                 </div>
                             )
                         } else return null
                     })}
                 </div>
+            <button className='withdrawbutton' onClick={(e) => { history.push(`/bookings/new`) }}>Make an Appointment</button>
             </div>
 
-            <button className='manageButtons' onClick={(e) => { history.push(`/bookings/new`) }}>Make an Appointment</button>
         </>
     )
 

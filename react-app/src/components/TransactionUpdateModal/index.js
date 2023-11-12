@@ -67,15 +67,15 @@ export default function TransactionUpdateModal(props) {
 
 
     return (
-        <div className='transactionFormContainer'>
-            <h1>Update Your Payment Method</h1>
+        <div className='modal-overlay'>
+            <form className='signupform' onSubmit={handleSubmit}>
+            <h1 className="h1title">Update Your Payment Method</h1>
             <p>{balance_change > 0 ? `Total: $${balance_change.toFixed(2)}` : null}</p>
-            <form className='transactionFormModalForm' onSubmit={handleSubmit}>
                 <p className="errors">{(ogPay !== 'balance' && paymentMethod === 'balance' && balance_change > user.balance) ? 'Inusfficient Funds' : null}</p>
                 <p>{paymentMethod === ogPay ? 'Please Update Your Payment Method' : null}</p>
                 <label>
                     Payment Method:
-                    <select value={paymentMethod}
+                    <select className="signupFormInput" value={paymentMethod}
                         onChange={(e) => setPaymentMethod(e.target.value)}>
                         <option value=''>Select Payment Type</option>
                         <option value='credit'>Credit (paid in person)</option>
@@ -85,9 +85,8 @@ export default function TransactionUpdateModal(props) {
                     </select>
                 </label>
 
-                <div className="transactionFormModalSubmitContainer">
-                    <button type="submit" disabled={(paymentMethod === 'balance' && balance_change > user.balance) || paymentMethod === '' || paymentMethod === ogPay} className="transactionSubmitButton" >Update Transaction</button>
-                </div>
+                <button className='withdrawbutton' type="submit" disabled={(paymentMethod === 'balance' && balance_change > user.balance) || paymentMethod === '' || paymentMethod === ogPay} >Update Transaction</button>
+
             </form>
         </div>
     )

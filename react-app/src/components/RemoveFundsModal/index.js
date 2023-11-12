@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { removeBalanceFromUser} from "../../store/session";
+import './RemoveFunds.css';
 
 const RemoveFundsModal = () => {
   const dispatch = useDispatch();
@@ -38,10 +39,11 @@ const RemoveFundsModal = () => {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
-        <h4>Remove Funds</h4>
+      <div className="signupform">
+        <h4 className="h4title">Remove Funds</h4>
         <p>How much would you like to withdraw?</p>
         <input
+          className="signupFormInput"
           type="number"
           placeholder="Enter amount"
           value={amount}
@@ -55,7 +57,7 @@ const RemoveFundsModal = () => {
         {error && <p className="error">{error}</p>}
         <button
           onClick={handleRemoveFunds}
-          className="remove-funds"
+          className="withdrawbutton"
           disabled={amount <= 0 || user.balance < amount}
         >
           Withdraw Funds

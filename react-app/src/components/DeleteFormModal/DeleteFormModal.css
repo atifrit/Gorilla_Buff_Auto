@@ -1,0 +1,16 @@
+.refundform {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: lightgrey;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    width: 500px;
+    padding-bottom: 30px;
+}
+
+.h1title {
+    text-align: center;
+}

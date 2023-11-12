@@ -1,0 +1,14 @@
+.withdrawbutton {
+    background-color: blue;
+    color: white;
+    border: 1px solid lightgrey;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 150px;
+}
+
+.withdrawbutton:disabled {
+    background-color: lightblue;
+    cursor: auto;
+}

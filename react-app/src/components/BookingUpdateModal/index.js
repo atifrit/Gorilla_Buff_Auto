@@ -32,7 +32,7 @@ export default function BookingUpdateModal(props) {
 
     console.log('ogDate_unformatted: ', ogDate_unformatted);
 
-    let ogInputDay = ogDate_unformatted.slice(3,5);
+    let ogInputDay = ogDate_unformatted.slice(3, 5);
     let ogInputMonth = ogDate_unformatted.slice(0, 2)
     let ogInputYear = ogDate_unformatted.slice(6)
 
@@ -48,7 +48,7 @@ export default function BookingUpdateModal(props) {
     const [errors, setErrors] = useState([]);
     const [showMenu, setShowMenu] = useState(false);
 
-    const {closeModal} = useModal();
+    const { closeModal } = useModal();
 
     const closeMenu = (e) => {
         setShowMenu(false);
@@ -220,7 +220,7 @@ export default function BookingUpdateModal(props) {
                 },
                 body: JSON.stringify({ appointment_date, car_type, service_type })
             })
-            if(updated.status > 400) {
+            if (updated.status > 400) {
                 let res = await updated.json()
                 console.error(res.errors)
             } else {
@@ -232,7 +232,7 @@ export default function BookingUpdateModal(props) {
                     body: JSON.stringify({ user_id, booking_id, balance_change, payment_method })
                 })
                 let transactionRes = await new_transaction.json()
-                if(new_transaction.status > 400) {
+                if (new_transaction.status > 400) {
                     console.error(transactionRes.errors)
                 } else if (transactionRes.paymentMethod == 'balance') {
                     dispatch(removeBalanceFromUser(balance_change))
@@ -255,7 +255,7 @@ export default function BookingUpdateModal(props) {
                 },
                 body: JSON.stringify({ appointment_date, car_type, service_type })
             })
-            if(updated.status > 400) {
+            if (updated.status > 400) {
                 let res = await updated.json()
                 console.error(res.errors)
             } else {
@@ -268,49 +268,52 @@ export default function BookingUpdateModal(props) {
 
     }
 
-        return (
-            <>
+    return (
+        <div className="modal-overlay">
+            <form className="signupform" onSubmit={handleSumbit}>
                 <h2>Update Your Appointment</h2>
-                <ul className="signup-errors">
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
-                <p>{price < 0 ? `You will be refunded $${(price * -1).toFixed(2)}` : null}</p>
-                <p>{price > 0 ? `Total: $${price.toFixed(2)}` : null}</p>
-                <form onSubmit={handleSumbit}>
-                    <input
-                        type='date'
-                        name='dateInput'
-                        value={appointmentDate}
-                        placeholder="Appointment Date"
-                        onChange={(e) => {
-                            setAppointmentDate(e.target.value);
-                            console.log(appointmentDate);
-                        }}
-                        required
-                    />
-                    <p className="errors">{occupiedBool && !pastBool ? 'Appointment Date Taken' : null}</p>
-                    <p className="errors">{pastBool ? 'Cannot make Appointments in the Past' : null}</p>
-                    <label htmlFor="car">Select Car Type:</label>
-                    <select name='car' value={carType} onChange={(e) => {
-                        setCarType(e.target.value);
-                        console.log(carType);
-                    }}>
-                        <option value=''>Car Type</option>
-                        <option value='sedan'>Sedan</option>
-                        <option value='sport'>Sport</option>
-                        <option value='suv'>SUV</option>
-                    </select>
-                    <label htmlFor="service">Select Service Type:</label>
-                    <select name='service' value={serviceType} onChange={(e) => setServiceType(e.target.value)}>
-                        <option value=''>Service Type</option>
-                        <option value='basic'>Basic Wash</option>
-                        <option value='premium'>Premium Exterior Detail</option>
-                        <option value='full'>Premium Exterior and Interior Detail</option>
-                    </select>
+                <div>
+                    <ul className="signup-errors">
+                        {errors.map((error, idx) => <li className="errors" key={idx}>{error}</li>)}
+                    </ul>
+                    <p>{price < 0 ? `You will be refunded $${(price * -1).toFixed(2)}` : null}</p>
+                    <p>{price > 0 ? `Total: $${price.toFixed(2)}` : null}</p>
+                </div>
+                <input
+                    className="signupFormInput"
+                    type='date'
+                    name='dateInput'
+                    value={appointmentDate}
+                    placeholder="Appointment Date"
+                    onChange={(e) => {
+                        setAppointmentDate(e.target.value);
+                        console.log(appointmentDate);
+                    }}
+                    required
+                />
+                <p className="errors">{occupiedBool && !pastBool ? 'Appointment Date Taken' : null}</p>
+                <p className="errors">{pastBool ? 'Cannot make Appointments in the Past' : null}</p>
+                <label className="selectFormText" htmlFor="car">Select Car Type:</label>
+                <select className="signupFormInput" name='car' value={carType} onChange={(e) => {
+                    setCarType(e.target.value);
+                    console.log(carType);
+                }}>
+                    <option value=''>Car Type</option>
+                    <option value='sedan'>Sedan</option>
+                    <option value='sport'>Sport</option>
+                    <option value='suv'>SUV</option>
+                </select>
+                <label className="selectFormText" htmlFor="service">Select Service Type:</label>
+                <select className="signupFormInput" name='service' value={serviceType} onChange={(e) => setServiceType(e.target.value)}>
+                    <option value=''>Service Type</option>
+                    <option value='basic'>Basic Wash</option>
+                    <option value='premium'>Premium Exterior Detail</option>
+                    <option value='full'>Premium Exterior and Interior Detail</option>
+                </select>
 
-                    <button disabled={occupiedBool || pastBool || (price > user.balance && payment_method == 'balance')} onClick={handleSumbit}>Update Booking</button>
-                </form>
-            </>
-        )
+                <button className="withdrawbutton" disabled={occupiedBool || pastBool || (price > user.balance && payment_method == 'balance')} onClick={handleSumbit}>Update Booking</button>
+            </form>
+        </div>
+    )
 
 }
