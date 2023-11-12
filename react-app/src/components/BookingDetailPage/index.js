@@ -67,21 +67,21 @@ const BookingsDetailPage = () => {
 
     if (ownedBooking) {
         return (
-            <>
-                <div>
-                    <h2>Your Booking for {reformatDate(booking.appointment_date)}</h2>
-                    <h3>Car Type</h3>
-                    <div>
+            <div className="bookingdetailcontainer">
+                <div className="signupformMod3">
+                    <h2 className="h1title">Your Booking for {reformatDate(booking.appointment_date)}</h2>
+                    <h2>Car Type</h2>
+                    <div className="displayText">
                         {booking.car_type}
                     </div>
-                    <h3>Service Type</h3>
-                    <div>
+                    <h2>Service Type</h2>
+                    <div className="displayText">
                         {booking.service_type.replace('_', ' ')}
                     </div>
                 </div>
                 <div className='bookingManagementButtonContainer'>
                     <OpenModalButton
-                        className='openDeleteModal'
+                        className='withdrawbutton'
                         buttonText="Request Refund"
                         onItemClick={closeMenu}
                         modalComponent={
@@ -94,7 +94,7 @@ const BookingsDetailPage = () => {
                         hidden = {displayBool}
                     />
                     <OpenModalButton
-                        className='openDeleteModal'
+                        className='withdrawbutton'
                         buttonText="Update Booking"
                         onItemClick={closeMenu}
                         modalComponent={
@@ -111,7 +111,7 @@ const BookingsDetailPage = () => {
                         hidden = {new Date().getTime() >= new Date(booking.appointment_date).getTime() ? true : false}
                     />
                 </div>
-            </>
+            </div>
         )
     } else {
         return (

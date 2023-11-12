@@ -1,0 +1,27 @@
+h4 {
+    font-family: sans-serif;
+}
+
+.h4title {
+    font-size: 30px;
+    margin:10px
+}
+
+p {
+    font-family: sans-serif;
+}
+
+.cancel {
+    background-color: red;
+    color: white;
+    border: 1px solid lightgrey;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100px;
+}
+
+.modal-overlay {
+    padding:10px;
+    background-color:lightgrey;
+}

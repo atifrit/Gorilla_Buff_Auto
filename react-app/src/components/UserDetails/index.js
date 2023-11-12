@@ -10,6 +10,13 @@ import RemoveFundsModal from "../RemoveFundsModal";
 import TransactionUpdateModal from "../TransactionUpdateModal";
 import './UserDetails.css'
 
+function reformatDate(date) {
+    let newDate = new Date(date).toLocaleDateString('en-US', {
+        timeZone: 'UTC',
+    }).replace(/\//g, '-');
+    return newDate;
+}
+
 const UserDetails = () => {
     const user = useSelector((state) => state.session.user)
     const transactions = useSelector((state) => state.transactions)
@@ -48,24 +55,24 @@ const UserDetails = () => {
 
     if (user) {
         return (
-            <>
+            <div className="profileContainer">
                 <h2>Profile</h2>
-                <div>
+                <div className="signupformMod">
                     <h3>Account Info</h3>
-                    <div>Username: {user.username}</div>
-                    <div>Email: {user.email}</div>
-                    <div>Account Balance: ${user.balance.toFixed(2)}</div>
+                    <div className='displayText'>Username: {user.username}</div>
+                    <div className='displayText'>Email: {user.email}</div>
+                    <div className='displayText'>Account Balance: ${user.balance.toFixed(2)}</div>
                 </div>
                 <div>
-                    <button className="add-funds-btn" onClick={handleAddFunds}>
+                    <button className="withdrawbutton" onClick={handleAddFunds}>
                         Add Funds
                     </button>
-                    <button className="withdraw-funds-btn" onClick={handleRemoveFunds} disabled={user.balance == 0 || user.balance < 0}>
+                    <button className="withdrawbutton" onClick={handleRemoveFunds} disabled={user.balance == 0 || user.balance < 0}>
                         Withdraw Funds
                     </button>
                 </div>
                 <div>
-                    <h3>Transaction History</h3>
+                    <h2 className='h1title'>Transaction History</h2>
                     <div>
                         {transactions.transactionObjs.map((transaction) => {
                             let bookingDate
@@ -78,13 +85,13 @@ const UserDetails = () => {
                                 }
                             }
                             return (
-                                <div>
-                                    <p>Booking Date: {bookingDate}</p>
-                                    <p>Transaction Date: {transaction.created_at}</p>
+                                <div  className="signupformMod">
+                                    <p>Booking Date: {reformatDate(bookingDate)}</p>
+                                    <p>Transaction Date: {reformatDate(transaction.created_at)}</p>
                                     <p>Payment Method: {transaction.payment_method}</p>
                                     <p>Transaction Amount: {transaction.price.toFixed(2)}</p>
                                     <OpenModalButton
-                                        className='openTransactionModal'
+                                        className='withdrawbutton'
                                         buttonText="Update Payment Method"
                                         onItemClick={closeMenu}
                                         modalComponent={
@@ -103,7 +110,7 @@ const UserDetails = () => {
                         })}
                     </div>
                 </div>
-            </>
+            </div>
 
         )
     } else {

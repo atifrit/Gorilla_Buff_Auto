@@ -76,14 +76,16 @@ export default function DeleteFormModal(props) {
 
 
     return (
-        <>
-            <h1>Are you sure you would like to refund this booking?</h1>
+        <div className="modal-overlay">
+        <div className="refundform">
+            <h1 className="h1title">Are you sure you would like to refund this booking?</h1>
             <p>{`You will be refunded $${balanceChange.toFixed(2)} to your account balance`}</p>
-            <div className="deleteFormButtons">
-                <button onClick={handleDelete}>Refund Booking</button>
-                <button onClick={handleCancel}>Cancel</button>
-            </div>
-        </>
+
+                <button className="withdrawbutton" onClick={handleDelete}>Refund Booking</button>
+                <button className="cancel" onClick={handleCancel}>Cancel</button>
+
+        </div>
+        </div>
 
     )
 }

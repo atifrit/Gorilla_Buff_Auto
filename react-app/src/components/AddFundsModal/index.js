@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { addBalanceToUser } from "../../store/session";
-// import "./addfundsmodal.css";
+import "./AddFunds.css";
 
 const AddFundsModal = () => {
   const dispatch = useDispatch();
@@ -30,10 +30,11 @@ const AddFundsModal = () => {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
-        <h4>Add Funds</h4>
-        <p>How many funds do you want to add?</p>
+      <div className="signupform">
+        <h4 className='h4title'>Add Funds</h4>
+        <p>How much would you like to add?</p>
         <input
+          className="signupFormInput"
           type="number"
           placeholder="Enter amount"
           value={amount}
@@ -45,8 +46,8 @@ const AddFundsModal = () => {
         <p className="errors">{ amount < 1 ? 'Invalid Amount' : null}</p>
         {error && <p className="error">{error}</p>}
         <button
+          className='signupbutton'
           onClick={handleAddFunds}
-          className="add-funds"
           disabled={amount <= 0}
         >
           Add Funds

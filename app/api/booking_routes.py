@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, session, request
 from app.models import Transaction, Booking, User, db
 from flask_login import current_user, login_user, logout_user, login_required
 from app.forms import BookingForm
+from sqlalchemy import desc
 
 def validation_errors_to_error_messages(validation_errors):
     errorMessages = []

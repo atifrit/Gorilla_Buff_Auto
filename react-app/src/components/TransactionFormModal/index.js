@@ -97,14 +97,12 @@ export default function TransactionFormModal(props) {
                 dispatch(getUserBookings())
                 dispatch(getAllDates())
                 dispatch(getTransactions())
-                alert('Thank you for your purchase!')
                 history.push('/bookings/')
             } else {
                 closeModal();
                 dispatch(getUserBookings())
                 dispatch(getAllDates())
                 dispatch(getTransactions())
-                alert('Thank you for your purchase!')
                 history.push('/bookings/')
             }
         }
@@ -112,14 +110,16 @@ export default function TransactionFormModal(props) {
     }
 
     return (
-        <div className='transactionFormContainer'>
-            <h1>Complete Your Transaction</h1>
-            <p>{balanceChange > 0 ? `Total: $${balanceChange.toFixed(2)}`:null}</p>
-            <form className='transactionFormModalForm' onSubmit={handleSubmit}>
-                <p className="errors">{(paymentMethod === 'balance' && balanceChange > props.user.balance) ? 'Inusfficient Funds' : null}</p>
+        <div className='modal-overlay'>
+            <form className='signupform' onSubmit={handleSubmit}>
+                <h1 className="h1title">Complete Your Transaction</h1>
+                <div>
+                    <p>{balanceChange > 0 ? `Total: $${balanceChange.toFixed(2)}` : null}</p>
+                    <p className="errors">{(paymentMethod === 'balance' && balanceChange > props.user.balance) ? 'Inusfficient Funds' : null}</p>
+                </div>
                 <label>
                     Payment Method:
-                    <select value={paymentMethod}
+                    <select className='signupFormInput' value={paymentMethod}
                         onChange={(e) => setPaymentMethod(e.target.value)}>
                         <option value=''>Select Payment Type</option>
                         <option value='credit'>Credit (paid in person)</option>
@@ -130,7 +130,7 @@ export default function TransactionFormModal(props) {
                 </label>
 
                 <div className="transactionFormModalSubmitContainer">
-                    <button type="submit" disabled={(paymentMethod === 'balance' && balanceChange > props.user.balance) || paymentMethod===''} className="transactionSubmitButton" >Complete Transaction</button>
+                    <button className='withdrawbutton' type="submit" disabled={(paymentMethod === 'balance' && balanceChange > props.user.balance) || paymentMethod === ''} >Complete Transaction</button>
                 </div>
             </form>
         </div>
