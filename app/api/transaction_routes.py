@@ -46,8 +46,8 @@ def createTransaction():
         db.session.add(new_transaction)
         db.session.commit()
         if(transactionForm.data['payment_method'] == 'balance'):
-            return jsonify({"message": "balance deduction successful"}), 201
-        return ({"message": "transaction successful"}), 201
+            return jsonify({"message": "balance deduction successful", 'paymentMethod': new_transaction.payment_method}), 201
+        return ({"message": "transaction successful", 'paymentMethod': new_transaction.payment_method}), 201
 
     return {'errors': validation_errors_to_error_messages(transactionForm.errors)}, 401
 
@@ -64,6 +64,6 @@ def updateTransaction(transaction_id):
         transaction.payment_method = transactionForm.data['payment_method']
         db.session.commit()
 
-        return jsonify({'message': 'update successful'}), 201
+        return jsonify({'message': 'update successful', 'paymentMethod': transaction.payment_method}), 201
 
     return {'errors': validation_errors_to_error_messages(transactionForm.errors)}, 401

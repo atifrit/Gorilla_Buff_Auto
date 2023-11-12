@@ -24,6 +24,7 @@ export default function TransactionUpdateModal(props) {
     const balance_change = props.price
 
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 

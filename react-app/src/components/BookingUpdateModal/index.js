@@ -7,7 +7,7 @@ import { removeBalanceFromUser, addBalanceToUser } from "../../store/session";
 import { getTransactions } from "../../store/transactions";
 
 import './BookingUpdate.css';
-import { getUserBookings } from "../../store/bookings";
+import { getAllDates, getUserBookings } from "../../store/bookings";
 
 
 function reformatDate(date) {
@@ -231,14 +231,20 @@ export default function BookingUpdateModal(props) {
                     },
                     body: JSON.stringify({ user_id, booking_id, balance_change, payment_method })
                 })
+                let transactionRes = await new_transaction.json()
                 if(new_transaction.status > 400) {
-                    let transactionRes = await new_transaction.json()
                     console.error(transactionRes.errors)
-                } else {
+                } else if (transactionRes.paymentMethod == 'balance') {
                     dispatch(removeBalanceFromUser(balance_change))
                     closeModal()
                     dispatch(getTransactions())
                     dispatch(getUserBookings())
+                    dispatch(getAllDates())
+                } else {
+                    closeModal()
+                    dispatch(getTransactions())
+                    dispatch(getUserBookings())
+                    dispatch(getAllDates())
                 }
             }
         } else {
@@ -255,6 +261,8 @@ export default function BookingUpdateModal(props) {
             } else {
                 closeModal()
                 dispatch(getUserBookings())
+                dispatch(getAllDates())
+                dispatch(getTransactions())
             }
         }
 

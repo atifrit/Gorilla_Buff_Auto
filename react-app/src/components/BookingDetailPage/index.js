@@ -28,7 +28,7 @@ const BookingsDetailPage = () => {
             dispatch(getUserBookings());
             dispatch(getTransactions())
         }
-    }, [dispatch, bookings])
+    }, [dispatch, bookings, transactions])
 
 
     const { bookingId } = useParams();
