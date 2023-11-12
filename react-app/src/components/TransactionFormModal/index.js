@@ -5,7 +5,7 @@ import { useModal } from "../../context/Modal";
 import './TransactionForm.css';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { removeBalanceFromUser } from "../../store/session";
-import { getUserBookings } from "../../store/bookings";
+import { getAllDates, getUserBookings } from "../../store/bookings";
 import { getTransactions } from "../../store/transactions";
 
 export default function TransactionFormModal(props) {
@@ -81,8 +81,9 @@ export default function TransactionFormModal(props) {
                 },
                 body: JSON.stringify({ user_id, booking_id, payment_method, balance_change })
             })
+            let transaction_res = await transaction_reponse.json();
+            console.log('tranascation_res: ', transaction_res);
             if (transaction_reponse.status > 400) {
-                let transaction_res = await transaction_reponse.json();
                 let errorsStrings = []
                 for (let el of transaction_res.errors) {
                     for (let i in el) {
@@ -90,10 +91,18 @@ export default function TransactionFormModal(props) {
                     }
                 }
                 setErrors(errorsStrings);
-            } else {
+            } else if (transaction_res.paymentMethod == 'balance') {
                 closeModal();
                 dispatch(removeBalanceFromUser(balance_change))
                 dispatch(getUserBookings())
+                dispatch(getAllDates())
+                dispatch(getTransactions())
+                alert('Thank you for your purchase!')
+                history.push('/bookings/')
+            } else {
+                closeModal();
+                dispatch(getUserBookings())
+                dispatch(getAllDates())
                 dispatch(getTransactions())
                 alert('Thank you for your purchase!')
                 history.push('/bookings/')
