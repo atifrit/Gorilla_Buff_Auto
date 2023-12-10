@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
     balance = db.Column(db.Float(2), default=0.00)
 
     transactions = db.relationship('Transaction', back_populates='user')
+    cars = db.relationship('Car', back_populates='user')
 
     @property
     def password(self):
