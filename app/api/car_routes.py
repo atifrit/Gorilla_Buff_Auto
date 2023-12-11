@@ -48,7 +48,7 @@ def createCar():
     return {'errors': validation_errors_to_error_messages(carForm.errors)}, 401
 
 
-@car_routes.route('<int:car_id>', methods=['PUT'])
+@car_routes.route('/<int:car_id>', methods=['PUT'])
 @login_required
 def updateCar(car_id):
     carForm=CarForm()
@@ -65,3 +65,17 @@ def updateCar(car_id):
         return jsonify({'message': 'update successful'}), 201
 
     return {'errors': validation_errors_to_error_messages(transactionForm.errors)}, 401
+
+
+@car_routes.route('/<int:car_id>', methods=['DELETE'])
+@login_required
+def deleteCar(car_id):
+    car = Car.query.get(car_id)
+
+    if not car:
+        return jsonify({"error": "Car not found"}), 404
+
+
+    db.session.delete(car)
+    db.session.commit()
+    return jsonify({'message': 'successfully deleted'})

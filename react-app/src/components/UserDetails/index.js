@@ -11,6 +11,7 @@ import RemoveFundsModal from "../RemoveFundsModal";
 import TransactionUpdateModal from "../TransactionUpdateModal";
 import CarUpdateModal from "../CarUpdateModal";
 import './UserDetails.css';
+import DeleteCarModal from "../DeleteCarModal";
 
 function reformatDate(date) {
     let newDate = new Date(date).toLocaleDateString('en-US', {
@@ -81,6 +82,11 @@ const UserDetails = () => {
                 </div>
                 <div>
                     <h2 className='h1title'>Your Cars</h2>
+                    <div className="addCarButtonContainer">
+                        <NavLink className="withdrawbuttonMod" to="/cars/new">
+                            Add a Car to Your Account
+                        </NavLink>
+                    </div>
                     {cars.user_cars.map((car) => {
                         return (
                             <div className="signupformMod">
@@ -102,14 +108,22 @@ const UserDetails = () => {
                                         />
                                     }
                                 />
+                                <OpenModalButton
+                                    className='cancel'
+                                    buttonText="Delete Car"
+                                    onItemClick={closeMenu}
+                                    modalComponent={
+                                        <DeleteCarModal
+                                            id={car.id}
+                                        />
+                                    }
+                                />
                             </div>
                         )
 
                     })
                     }
-                    <NavLink className="signup" to="/cars/new">
-                        Add a Car to Your Account
-                    </NavLink>
+
                 </div>
 
                 <div>
