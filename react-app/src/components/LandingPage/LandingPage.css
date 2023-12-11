@@ -1,50 +1,141 @@
 html {
-    background-color: lightgrey;
+  background-color: lightgrey;
+}
+.title-container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 406px;
+  width: 100%;
+  background-image: url("https://i.pinimg.com/736x/e8/99/dd/e899ddf89eb9e69b2ed3f0f5c4d85998.jpg")
 }
 
-.landing-container{
-    width: 100%;
-    min-height: 100%;
-    position: fixed;
-    display: flex;
-    justify-content: center;
+body {
+  margin: 0;
+}
 
-  }
+.landing-container,
+.retirement-container,
+.signup-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5%;
+  box-sizing: border-box;
+}
 
-  .landing-container > h1{
-    font-size: 80px;
-    color: white;
-  }
+.title-container,
+.retirement-title-container,
+.signup-title-container {
+  flex-basis: 100%;
+  text-align: center;
+  padding: 2%;
+}
 
-  .title-text{
-    color: white;
-    text-align: center;
-    width: 100%;
-    font-size: 52px;
-    font-weight: 700;
-  }
+.landing-image,
+.retirement-image,
+.signup-image {
+  flex-basis: 50%;
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+}
 
-  .sub-title-text{
-    color: white;
-    margin-bottom: 50px;
-    text-align: center;
-    width: 100%;
-    font-size: 32px;
-    font-weight: 700;
-  }
+.landing-container {
+  border: 1px solid grey;
+  background: lightgrey;
+}
 
-  .title-container{
-    display: flex;
-    justify-content: center;
+.retirement-container {
+  background: #00473e;
+  text-align: left;
+}
+
+.signup-container {
+  background: #67e46b;
+  text-align: left;
+}
+
+.title-text {
+  font-size: 3vw;
+  font-weight: 700;
+  color: white;
+}
+
+.retirement-title-text {
+  font-size: 3vw;
+  font-weight: 700;
+  color: #89e823;
+}
+
+.signup-title-text {
+  font-size: 3vw;
+  font-weight: 700;
+}
+
+.sub-title-text,
+.retirement-sub-title-text {
+  font-size: 2vw;
+  font-weight: 700;
+  color: white;
+}
+
+.land-txt,
+.retirement-txt {
+  font-size: 20px;
+  margin-top: 40px;
+}
+
+.sign-btn {
+  background-color: rgb(255, 166, 0);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 15px 30px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1.5rem;
+}
+
+.sign-btn:hover {
+  background-color: rgb(255, 85, 0);
+}
+
+@media (max-width: 768px) {
+  .landing-container,
+  .retirement-container,
+  .signup-container {
     flex-direction: column;
-    align-items: center;
-    height: 406px;
-    width: 100%;
-    background-image: url("https://i.pinimg.com/736x/e8/99/dd/e899ddf89eb9e69b2ed3f0f5c4d85998.jpg")
+    height: auto;
   }
 
-  .landing-image {
-    margin-left: 90px;
-    width:800px;
-    height: 500px;
+  .title-container,
+  .retirement-title-container,
+  .signup-title-container {
+    flex-basis: auto;
+    text-align: center;
   }
+
+  .landing-image,
+  .retirement-image,
+  .signup-image {
+    max-height: 50vh;
+  }
+
+  .title-text,
+  .sub-title-text,
+  .retirement-title-text,
+  .retirement-sub-title-text,
+  .signup-title-text {
+    font-size: 5vw;
+  }
+
+  .land-text {
+    font-size: 3vw;
+  }
+}

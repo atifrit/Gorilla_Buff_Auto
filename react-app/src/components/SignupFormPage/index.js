@@ -40,12 +40,12 @@ function SignupFormPage() {
           {errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
         </ul>
         <div>
-          <p className="errors">{email.length < 4 && email.length > 0 ? 'email must be greater than 4 characters' : null}</p>
-          <p className="errors">{email.length > 50 ? 'email must be less than 50 characters' : null}</p>
-          <p className="errors">{username.length < 4 && username.length > 0 ? 'username must be greater than 4 characters' : null}</p>
-          <p className="errors">{username.length > 50 ? 'username must be less than 50 characters' : null}</p>
-          <p className="errors">{password.length < 8 && password.length > 0 ? 'password must be at least 8 characters' : null}</p>
-          <p className="errors">{password.length > 50 ? 'password must be less than 50 characters' : null}</p>
+          <p className="errorsMod">{email.length < 4 && email.length > 0 ? 'email must be greater than 4 characters' : null}</p>
+          <p className="errorsMod">{email.length > 50 ? 'email must be less than 50 characters' : null}</p>
+          <p className="errorsMod">{username.length < 4 && username.length > 0 ? 'username must be greater than 4 characters' : null}</p>
+          <p className="errorsMod">{username.length > 50 ? 'username must be less than 50 characters' : null}</p>
+          <p className="errorsMod">{password.length < 8 && password.length > 0 ? 'password must be at least 8 characters' : null}</p>
+          <p className="errorsMod">{password.length > 50 ? 'password must be less than 50 characters' : null}</p>
         </div>
         <label>
           <input
