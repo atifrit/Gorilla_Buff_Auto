@@ -56,9 +56,9 @@ GorillaBuff Website: https://gorilla-buff-auto.onrender.com
 
 # Screenshots:
    - User Details:
-      <img alt="user-details" src="">
+      <img alt="user-details" src="https://github.com/atifrit/Gorilla_Buff_Auto/blob/dev/react-app/images/user_details.JPG">
    - Bookings Page:
-      <img alt="bookings-page" src="">
+      <img alt="bookings-page" src="https://github.com/atifrit/Gorilla_Buff_Auto/blob/dev/react-app/images/booking_details.JPG">
 
 # Technical Implementation:
 
