@@ -1,5 +1,7 @@
-.errors {
-    list-style-type: none
+.errorsMod {
+    list-style-type: none;
+    color: red;
+    text-align: center;
 }
 
 h1 {
@@ -48,4 +50,10 @@ h1 {
 .signupbutton:disabled {
     background-color: lightblue;
     cursor: auto;
+}
+
+.errorsContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

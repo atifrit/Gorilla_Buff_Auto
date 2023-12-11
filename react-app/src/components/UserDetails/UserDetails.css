@@ -26,3 +26,25 @@ h3 {
     font-family: sans-serif;
     margin-top: 5px;
 }
+
+
+.withdrawbuttonMod {
+    background-color: blue;
+    color: white;
+    border: 1px solid lightgrey;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 180px;
+    text-decoration: none;
+}
+
+.withdrawbuttonMod:disabled {
+    background-color: lightblue;
+    cursor: auto;
+}
+
+.addCarButtonContainer {
+    display: flex;
+    justify-content: center;
+}

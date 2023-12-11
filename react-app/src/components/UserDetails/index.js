@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserBookings } from "../../store/bookings";
 import { getTransactions } from "../../store/transactions";
-import { Link, Redirect, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { getUserCars } from '../../store/cars';
+import { Link, NavLink, Redirect, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import OpenModalButton from "../OpenModalButton";
 import { useModal } from "../../context/Modal";
 import AddFundsModal from "../AddFundsModal";
 import RemoveFundsModal from "../RemoveFundsModal";
 import TransactionUpdateModal from "../TransactionUpdateModal";
-import './UserDetails.css'
+import CarUpdateModal from "../CarUpdateModal";
+import './UserDetails.css';
+import DeleteCarModal from "../DeleteCarModal";
 
 function reformatDate(date) {
     let newDate = new Date(date).toLocaleDateString('en-US', {
@@ -21,8 +24,8 @@ const UserDetails = () => {
     const user = useSelector((state) => state.session.user)
     const transactions = useSelector((state) => state.transactions)
     const bookings = useSelector((state) => state.bookings)
+    const cars = useSelector((state) => state.cars)
     const dispatch = useDispatch();
-    console.log('transactions.hydrated: ', transactions.hydrated)
     const { modalContent, setModalContent } = useModal();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
@@ -38,6 +41,12 @@ const UserDetails = () => {
     useEffect(() => {
         if (!transactions.hydrated) {
             dispatch(getTransactions());
+        }
+    })
+
+    useEffect(() => {
+        if (!cars.hydrated) {
+            dispatch(getUserCars());
         }
     })
 
@@ -72,12 +81,58 @@ const UserDetails = () => {
                     </button>
                 </div>
                 <div>
+                    <h2 className='h1title'>Your Cars</h2>
+                    <div className="addCarButtonContainer">
+                        <NavLink className="withdrawbuttonMod" to="/cars/new">
+                            Add a Car to Your Account
+                        </NavLink>
+                    </div>
+                    {cars.user_cars.map((car) => {
+                        return (
+                            <div className="signupformMod">
+                                <p>Car Type: {car.car_type}</p>
+                                <p>Make: {car.make}</p>
+                                <p>Model: {car.model}</p>
+                                <OpenModalButton
+                                    className='withdrawbutton'
+                                    buttonText="Update Car Details"
+                                    onItemClick={closeMenu}
+                                    modalComponent={
+                                        <CarUpdateModal
+                                            car_type={car.car_type}
+                                            make={car.make}
+                                            model={car.model}
+                                            user_id={car.user_id}
+                                            id={car.id}
+                                            user={user}
+                                        />
+                                    }
+                                />
+                                <OpenModalButton
+                                    className='cancel'
+                                    buttonText="Delete Car"
+                                    onItemClick={closeMenu}
+                                    modalComponent={
+                                        <DeleteCarModal
+                                            id={car.id}
+                                        />
+                                    }
+                                />
+                            </div>
+                        )
+
+                    })
+                    }
+
+                </div>
+
+                <div>
                     <h2 className='h1title'>Transaction History</h2>
                     <div>
                         {transactions.transactionObjs.map((transaction) => {
                             let bookingDate
                             let bookingId
-                            for(let el of bookings.user_bookings) {
+                            for (let el of bookings.user_bookings) {
                                 if (transaction.booking_id == el.id) {
                                     bookingDate = el.appointment_date;
                                     bookingId = el.id
@@ -85,7 +140,7 @@ const UserDetails = () => {
                                 }
                             }
                             return (
-                                <div  className="signupformMod">
+                                <div className="signupformMod">
                                     <p>Booking Date: {reformatDate(bookingDate)}</p>
                                     <p>Transaction Date: {reformatDate(transaction.created_at)}</p>
                                     <p>Payment Method: {transaction.payment_method}</p>

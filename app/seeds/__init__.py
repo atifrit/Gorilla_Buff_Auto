@@ -1,6 +1,7 @@
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
 from .bookings import seed_bookings, undo_bookings
+from .cars import seed_cars, undo_cars
 from .transactions import seed_transactions, undo_transactions
 
 from app.models.db import db, environment, SCHEMA
@@ -21,9 +22,11 @@ def seed():
         undo_transactions()
         undo_users()
         undo_bookings()
+        undo_cars()
     seed_users()
     seed_bookings()
     seed_transactions()
+    seed_cars()
     # Add other seed functions here
 
 
@@ -33,4 +36,5 @@ def undo():
     undo_transactions()
     undo_users()
     undo_bookings()
+    undo_cars()
     # Add other undo functions here
